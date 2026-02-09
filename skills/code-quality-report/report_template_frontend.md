@@ -14,13 +14,13 @@
 
 | Criterion         | Score | Rating                          |
 | ----------------- | ----- | ------------------------------- |
-| Code Organization | X/10  | Good / Fair / Needs improvement |
-| Type Safety       | X/10  | Good / Fair / Needs improvement |
-| Error Handling    | X/10  | Good / Fair / Needs improvement |
-| Documentation     | X/10  | Good / Fair / Needs improvement |
-| Testing           | X/10  | Good / Fair / Needs improvement |
-| Maintainability   | X/10  | Good / Fair / Needs improvement |
-| Security          | X/10  | Good / Fair / Needs improvement |
+| Code Organization | X/10  | Very good / Good / Fair / Needs improvement |
+| Type Safety       | X/10  | Very good / Good / Fair / Needs improvement |
+| Error Handling    | X/10  | Very good / Good / Fair / Needs improvement |
+| Documentation     | X/10  | Very good / Good / Fair / Needs improvement |
+| Testing           | X/10  | Very good / Good / Fair / Needs improvement |
+| Maintainability   | X/10  | Very good / Good / Fair / Needs improvement |
+| Security          | X/10  | Very good / Good / Fair / Needs improvement |
 
 **Total score:** X/10 — **Overall rating:** Good
 
@@ -197,37 +197,44 @@ _(Summarize score, main strengths, improvement priorities, and short-term goals.
 
 ### 9.1 Architecture Diagram
 
-_(Automatically generated Mermaid diagram showing component/feature structure, state management flow, and key modules)_
+_(Generate a Mermaid `graph TB` diagram based on actual codebase analysis. Show component/feature structure, state management flow, routing, and API integration points. See SKILL.md for syntax reference.)_
 
 ```mermaid
 graph TB
-    App[App Root] --> Router[Router]
-    Router --> Home[Home Page]
-    Router --> Profile[Profile Page]
-    Router --> Settings[Settings Page]
-    Home --> Components[UI Components]
-    Profile --> Components
-    Components --> State[State Management]
-    Components --> API[API Service]
-    State --> API
+    %% Replace with actual architecture from codebase analysis
 ```
 
-_Description: This diagram shows the high-level frontend architecture with routing, component hierarchy, and state management flow._
+_Description: (Describe what the diagram shows — routing, component hierarchy, state management flow, etc.)_
 
 ### 9.2 Database Diagram _(if applicable)_
 
-_(Only include if frontend directly interacts with a database. Otherwise, omit this subsection.)_
+_(Only include if frontend directly interacts with a database or local cache. Otherwise, omit this subsection. See SKILL.md for syntax reference.)_
 
 ```mermaid
 erDiagram
-    CACHE ||--o{ SESSION : stores
-    CACHE {
-        string key PK
-        string value
-        date expires_at
-    }
+    %% Replace with actual entities if frontend uses local DB or cache
 ```
 
-_Description: This diagram shows database entities if the frontend uses local database or cache._
+_Description: (Describe database entities if applicable.)_
+
+---
+
+## 10. Project Governance & PR Standards
+
+| Field | Value |
+| --- | --- |
+| Code quality PR creation standards, gitflow | _(Short description of PR standards & gitflow)_ |
+| Protect git branch and prevent master/main push/push force | _(e.g. "protected", "partially protected", "not protected", "unknown")_ |
+| README | _(e.g. "Up-to-date", "Out-of-date", "Missing", "Minimal")_ |
+| Architecture diagram? | _(e.g. "Up-to-date", "Missing", "Partial")_ |
+| DB Diagram? | _(e.g. "Up-to-date", "Missing", "Not applicable")_ |
+| Unit Test Coverage (%) | _(e.g. "~60%", "Unknown", "Low (<30%)", "High (>80%)")_ |
+| API Key - Security (Ensure sensitive API keys and tokens are not exposed or stored directly in the source code.) | _(e.g. "No vulnerabilities, secure error handling, no sensitive data leaks." or specific issues)_ |
+| Linting & Formatting tool name | _(e.g. "ESLint", "Biome", "Prettier", or "None detected")_ |
+| Error Tracking | _(e.g. "Sentry", "Datadog", "None detected")_ |
+| CI/CD | _(e.g. "CI/CD in place", "Manual only", "Unknown")_ |
+| Need more meetings with the team to improve? | _(TRUE/FALSE)_ |
+| Notes - Need any improvement (detail)? | _(Short, concrete improvement notes)_ |
+| Rating | _(e.g. "★★★★☆")_ |
 
 ---

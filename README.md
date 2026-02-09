@@ -25,6 +25,6 @@ After installation, simply prompt Cursor AI with any of the following:
 - `Generate quality assessment report`
 - `Codebase review report`
 - `Frontend vs backend quality report`
-- `Export report as Google Doc`
+- `Export report as markdown file`
 
 The skill will automatically detect the platform (Frontend/Backend) and generate a comprehensive assessment report following IEEE 730/1016/829 standards, Clean Code principles, and OWASP security guidelines.

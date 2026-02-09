@@ -12,7 +12,7 @@ Produce a **Code Quality Assessment Report**. Reports are **platform-specific**:
 - User asks for "code quality report", "quality assessment", or "codebase review report".
 - User asks by platform: "frontend report", "backend report", "mobile report", "web report", "FE vs BE", or "mobile & web & backend".
 - User mentions migrating or updating code quality rules/skills.
-- User requests to "export report as Google Doc" or "export to Google Docs".
+- User requests to "export report" or "save report as markdown file".
 
 ## Step 1: Determine Platform
 
@@ -20,6 +20,23 @@ Produce a **Code Quality Assessment Report**. Reports are **platform-specific**:
 - **Backend (BE)**: APIs, services, databases, auth, jobs, workers. Use [report_template_backend.md](report_template_backend.md) and Backend criteria below.
 - **Both (Frontend + Backend)**: Produce **two reports** (one Frontend, one Backend). Optionally add a short "Cross-cutting" section if they share repos or contracts.
 - **Three-way (Mobile + Web + Backend)**: For maximum detail, produce **three reports**: one Frontend-Mobile, one Frontend-Web, one Backend. Use the same Frontend template twice with Scope _Mobile_ and _Web_ respectively, and the Backend template once.
+
+## Step 2: Analyze the Codebase
+
+Before writing the report, gather data from the codebase:
+
+1. **Project structure**: Read directory tree to identify layers, modules, and organization patterns.
+2. **Dependency files**: Read `package.json`, `pubspec.yaml`, `go.mod`, `requirements.txt`, `pom.xml`, or equivalent to identify framework, language version, and dependencies.
+3. **Outdated & vulnerabilities**: Run `npm outdated` / `dart pub outdated` / `go list -u -m all` and `npm audit` / `govulncheck` or equivalent when possible. If commands cannot be run, note the limitation and use "Unknown" in the report.
+4. **Test files & coverage**: Look for test directories, test config (`jest.config`, `vitest.config`, `pytest.ini`, etc.), and coverage reports.
+5. **CI/CD config**: Check for `.github/workflows/`, `Jenkinsfile`, `.gitlab-ci.yml`, `bitbucket-pipelines.yml`, etc.
+6. **Linting & formatting**: Check for `.eslintrc`, `biome.json`, `.prettierrc`, `analysis_options.yaml`, etc.
+7. **Security**: Scan for `.env` files committed to repo, hardcoded secrets/tokens, and auth configuration.
+8. **README & docs**: Read README and any documentation files.
+9. **Models & schemas**: Look for model/entity files, database migrations, and schema definitions.
+10. **Git & branching**: Check branch protection rules, PR templates, and git workflow (if accessible).
+
+> If any data source is unavailable (e.g. cannot run shell commands), use "Unknown" in the report rather than guessing.
 
 ## Standards Applied
 
@@ -122,7 +139,7 @@ Every report **must** include the **Dependencies, Libraries & Framework Review**
 
 - After **Codebase statistics** (section 2).
 - Section title: **3. Dependencies, Libraries & Framework Review**.
-- Subsequent sections renumber: 4 Strengths, 5 Areas for improvement, 6 Recommendations, 7 Conclusion, 8 Architecture & Database Diagrams, 9 Action items.
+- Subsequent sections renumber: 4 Strengths, 5 Areas for improvement, 6 Recommendations, 7 Conclusion, 8 Action items, 9 Architecture & Database Diagrams, 10 Project Governance & PR Standards.
 
 ---
 
@@ -214,8 +231,8 @@ erDiagram
    - Keep it high-level; don't include every field
 
 4. **Insert diagrams in report:**
-   - Place after **Dependencies, Libraries & Framework Review** (section 3)
-   - Section title: **4. Architecture & Database Diagrams**
+   - Place after **Action Items** (section 8), at the very end of the report
+   - Section title: **9. Architecture & Database Diagrams**
    - Include both diagrams in Mermaid code blocks
    - Add brief descriptions explaining what each diagram shows
 
@@ -296,6 +313,7 @@ Use for **Codebase statistics**:
 9. **7. Conclusion**: Summarize score, main strengths, improvement priorities.
 10. **8. Action items** (optional): Immediate, Short-term, Long-term.
 11. **9. Architecture & Database Diagrams** (optional but recommended): Mermaid diagrams showing system architecture and database schema (when applicable). Automatically generated based on codebase analysis.
+12. **10. Project Governance & PR Standards** (required): Single governance table summarizing PR standards, git workflow, security, and process health.
 
 ---
 
@@ -310,108 +328,19 @@ Use for **Codebase statistics**:
 
 ---
 
-## Export to Google Docs
+## Export to Markdown File
 
-When the user requests to **export the report as a Google Doc**, follow these steps:
+When the user requests to **export the report as a file**, follow these steps:
 
-### Method 1: Direct Copy-Paste (Recommended)
-
-1. **Generate the report** in markdown format following the standard template.
-2. **Format for Google Docs compatibility**:
-   - Convert markdown headings to **Heading 1-4** styles (use `#` → Heading 1, `##` → Heading 2, etc.)
-   - Convert markdown tables to Google Docs tables (they will auto-convert when pasted)
-   - Convert markdown bullet lists (`-` or `*`) to Google Docs bullet lists
-   - Convert markdown numbered lists to Google Docs numbered lists
-   - Preserve code blocks as formatted text with monospace font
-   - Convert markdown bold (`**text**`) to Google Docs bold
-   - Convert markdown italic (`*text*`) to Google Docs italic
-3. **Copy the formatted markdown** from the generated report.
-4. **Paste into Google Docs**: Open a new Google Doc and paste. Google Docs will automatically convert:
-   - Headings (if formatted with `#` symbols)
-   - Tables (markdown tables convert well)
-   - Lists (bullets and numbered)
-   - Basic formatting (bold, italic)
-5. **Manual adjustments**:
-   - Apply heading styles manually if needed (Format → Paragraph styles → Heading 1/2/3/4)
-   - Adjust table formatting (borders, colors, alignment)
-   - Format code blocks with monospace font (Courier New or Consolas)
-   - **For Mermaid diagrams**: Google Docs doesn't render Mermaid directly. Options:
-     - Use online Mermaid renderer (mermaid.live) to generate PNG/SVG, then insert images
-     - Install Google Docs add-on "Mermaid Diagrams" if available
-     - Keep diagrams as code blocks with note: "Render using mermaid.live or compatible viewer"
-   - Add page breaks between major sections if needed
-   - Insert a table of contents (Insert → Table of contents) if the report is long
-
-### Method 2: Markdown to Google Docs Conversion Tools
-
-If available, use conversion tools:
-
-- **Pandoc**: Convert markdown to Google Docs format
-  ```bash
-  pandoc report.md -o report.docx
-  # Then upload report.docx to Google Drive and open with Google Docs
-  ```
-- **Online converters**: Use markdown-to-docx converters, then import to Google Docs
-- **Google Docs Add-ons**: Install "Markdown" or "Docs to Markdown" add-ons for better conversion
-
-### Formatting Guidelines for Google Docs
-
-When preparing the report for Google Docs export:
-
-- **Headings**: Use clear hierarchy (H1 for title, H2 for main sections, H3 for subsections)
-- **Tables**: Ensure tables are properly formatted; Google Docs will preserve table structure
-- **Code blocks**: Format with monospace font and light background color for readability
-- **Page breaks**: Add page breaks before major sections (Insert → Break → Page break)
-- **Headers/Footers**: Add report metadata (project name, date, version) in header/footer
-- **Table of Contents**: Insert automatically generated TOC for reports longer than 5 pages
-- **Colors**: Use consistent color scheme for:
-  - 🔴 High priority recommendations (red)
-  - 🟡 Medium priority recommendations (orange/yellow)
-  - 🟢 Low priority recommendations (green)
-
-### Google Docs Template Structure
-
-When exporting, structure the document as:
-
-1. **Title Page** (optional):
-   - Project/Repo name (large, centered)
-   - Assessment date
-   - Report version
-   - Assessed by
-
-2. **Table of Contents** (auto-generated)
-
-3. **Main Report Sections**:
-   - Executive Summary
-   - Codebase Statistics
-   - Dependencies Review
-   - Strengths
-   - Areas for Improvement
-   - Recommendations
-   - Conclusion
-   - Action Items (Optional)
-   - Architecture & Database Diagrams
-   - Project Governance & PR Standards Table
-
-4. **Appendices** (if needed):
-   - Detailed findings
-   - Code samples
-   - References
-
-### Export Checklist
-
-Before finalizing the Google Doc export:
-
-- [ ] All markdown formatting converted to Google Docs styles
-- [ ] Tables are properly formatted and readable
-- [ ] Headings use consistent styles (H1-H4)
-- [ ] Code blocks use monospace font
-- [ ] Page breaks added between major sections
-- [ ] Table of contents inserted and updated
-- [ ] Headers/footers include metadata
-- [ ] Colors used consistently for priority indicators
-- [ ] All links are clickable (if URLs were included)
-- [ ] Document is shareable with appropriate permissions
+1. **Generate the report** following the standard template.
+2. **Save as `.md` file**: Write the full report to a markdown file (e.g. `code-quality-report.md` or `{project-name}-quality-report.md`) in the project root or a designated output directory.
+3. **Mermaid diagrams**: Keep diagrams in Mermaid code blocks — they render natively in GitHub, GitLab, and most markdown viewers.
+4. **Ensure formatting**:
+   - Headings use `#` hierarchy (`#` for title, `##` for sections, `###` for subsections)
+   - Tables are properly formatted markdown tables
+   - Code blocks use triple backticks with language tags
+   - Priority indicators use emoji: 🔴 High, 🟡 Medium, 🟢 Low
+5. **Filename convention**: `{project-name}-quality-report-{YYYY-MM-DD}.md` (e.g. `my-app-quality-report-2026-02-09.md`)
 
 ---
 
@@ -500,4 +429,4 @@ Summarize why you chose the rating in **1–2 short sentences** in the report bo
 - [ ] Recommendations are prioritized and actionable
 - [ ] Conclusion matches scores and states next steps
 - [ ] **Project governance & PR standards table** is included and filled with the best available evidence (use `Unknown` rather than guessing when data is not visible)
-- [ ] If Google Docs export requested: report formatted for Google Docs compatibility (headings, tables, lists, code blocks); formatting guidelines followed; export checklist completed
+- [ ] If markdown export requested: report saved as `.md` file with proper formatting (headings, tables, code blocks, Mermaid diagrams)
