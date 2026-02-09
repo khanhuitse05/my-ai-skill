@@ -192,3 +192,42 @@ _(Summarize score, main strengths, improvement priorities, and short-term goals.
 - [ ]
 
 ---
+
+## 9. Architecture & Database Diagrams
+
+### 9.1 Architecture Diagram
+
+_(Automatically generated Mermaid diagram showing component/feature structure, state management flow, and key modules)_
+
+```mermaid
+graph TB
+    App[App Root] --> Router[Router]
+    Router --> Home[Home Page]
+    Router --> Profile[Profile Page]
+    Router --> Settings[Settings Page]
+    Home --> Components[UI Components]
+    Profile --> Components
+    Components --> State[State Management]
+    Components --> API[API Service]
+    State --> API
+```
+
+_Description: This diagram shows the high-level frontend architecture with routing, component hierarchy, and state management flow._
+
+### 9.2 Database Diagram _(if applicable)_
+
+_(Only include if frontend directly interacts with a database. Otherwise, omit this subsection.)_
+
+```mermaid
+erDiagram
+    CACHE ||--o{ SESSION : stores
+    CACHE {
+        string key PK
+        string value
+        date expires_at
+    }
+```
+
+_Description: This diagram shows database entities if the frontend uses local database or cache._
+
+---

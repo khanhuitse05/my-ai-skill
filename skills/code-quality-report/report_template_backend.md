@@ -174,3 +174,47 @@ _(Summarize score, main strengths, improvement priorities, and short-term goals.
 - [ ]
 
 ---
+
+## 9. Architecture & Database Diagrams
+
+### 9.1 Architecture Diagram
+
+_(Automatically generated Mermaid diagram showing service layers, API structure, and key modules)_
+
+```mermaid
+graph TB
+    Client[Client App] --> API[API Gateway]
+    API --> Auth[Auth Service]
+    API --> User[User Service]
+    API --> Order[Order Service]
+    User --> DB[(Database)]
+    Order --> DB
+    Order --> Payment[Payment API]
+```
+
+_Description: This diagram shows the high-level architecture with API gateway routing to services, and data flow to the database._
+
+### 9.2 Database Diagram
+
+_(Automatically generated Mermaid ER diagram showing main entities and relationships)_
+
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : "ordered in"
+    USER {
+        int id PK
+        string email
+        string name
+    }
+    ORDER {
+        int id PK
+        int user_id FK
+        date created_at
+    }
+```
+
+_Description: This diagram shows the main database entities and their relationships identified from the codebase._
+
+---

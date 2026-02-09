@@ -122,7 +122,117 @@ Every report **must** include the **Dependencies, Libraries & Framework Review**
 
 - After **Codebase statistics** (section 2).
 - Section title: **3. Dependencies, Libraries & Framework Review**.
-- Subsequent sections renumber: 4 Strengths, 5 Areas for improvement, 6 Recommendations, 7 Conclusion, 8 Action items.
+- Subsequent sections renumber: 4 Strengths, 5 Areas for improvement, 6 Recommendations, 7 Conclusion, 8 Architecture & Database Diagrams, 9 Action items.
+
+---
+
+## Architecture & Database Diagrams (Optional Section)
+
+When generating reports, **automatically create Architecture and Database diagrams** using Mermaid syntax. These diagrams help visualize the system structure and are valuable for documentation.
+
+### When to Include Diagrams
+
+- **Always attempt** to generate diagrams based on codebase analysis.
+- If the codebase structure is unclear or too complex, generate a simplified high-level diagram.
+- For Backend: Generate both Architecture diagram and DB Diagram.
+- For Frontend: Generate Architecture diagram (component/feature structure); DB Diagram only if the frontend directly interacts with a database (rare).
+
+### Architecture Diagram
+
+Generate a **Mermaid diagram** showing:
+
+**For Backend:**
+- Service/API layers (controllers → services → repositories)
+- External dependencies (databases, message queues, third-party APIs)
+- Key modules and their relationships
+- Data flow direction
+
+**For Frontend:**
+- Component hierarchy or feature structure
+- State management flow
+- Key modules/pages and their relationships
+- API/service integration points
+
+**Mermaid syntax examples:**
+
+```mermaid
+graph TB
+    Client[Client App] --> API[API Gateway]
+    API --> Auth[Auth Service]
+    API --> User[User Service]
+    API --> Order[Order Service]
+    User --> DB[(User DB)]
+    Order --> DB
+    Order --> Payment[Payment API]
+```
+
+### Database Diagram
+
+Generate a **Mermaid ER diagram** showing:
+
+- Main entities/tables identified from models, entities, or schema files
+- Key relationships between entities
+- Primary keys and important fields (if identifiable from code)
+
+**Mermaid ER syntax example:**
+
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : "ordered in"
+    USER {
+        int id PK
+        string email
+        string name
+    }
+    ORDER {
+        int id PK
+        int user_id FK
+        date created_at
+    }
+```
+
+### How to Generate Diagrams
+
+1. **Analyze the codebase structure:**
+   - Scan directory structure (from Codebase Statistics section)
+   - Identify main modules, services, components
+   - Look for model/entity files, database schemas, migrations
+   - Identify API endpoints and their relationships
+
+2. **Create Architecture Diagram:**
+   - Start with entry points (API routes, main components)
+   - Map to business logic layers (services, use cases)
+   - Connect to data access layers (repositories, DAOs)
+   - Add external dependencies (databases, APIs, queues)
+
+3. **Create Database Diagram (Backend only, or Frontend with DB):**
+   - Extract entities from models/entities/schema files
+   - Identify relationships (foreign keys, associations)
+   - Include key fields (id, name, timestamps, etc.)
+   - Keep it high-level; don't include every field
+
+4. **Insert diagrams in report:**
+   - Place after **Dependencies, Libraries & Framework Review** (section 3)
+   - Section title: **4. Architecture & Database Diagrams**
+   - Include both diagrams in Mermaid code blocks
+   - Add brief descriptions explaining what each diagram shows
+
+### Diagram Quality Guidelines
+
+- **Keep it readable**: Don't include every single component/table; focus on main structure
+- **Show relationships**: Use arrows and connectors to show data flow and dependencies
+- **Use clear labels**: Name nodes/components clearly based on actual codebase structure
+- **If uncertain**: Generate a simplified high-level diagram rather than guessing details
+- **Note limitations**: If diagram is simplified or partial, add a note explaining what's included
+
+### Where it goes in the report
+
+- After **Action Items** (section 8), at the very end of the report.
+- Section title: **9. Architecture & Database Diagrams**.
+- Include both Architecture and Database diagrams (when applicable).
+- This is the final section of the report.
 
 ---
 
@@ -185,6 +295,7 @@ Use for **Codebase statistics**:
 8. **6. Recommendations**: 🔴 High / 🟡 Medium / 🟢 Low with concrete actions.
 9. **7. Conclusion**: Summarize score, main strengths, improvement priorities.
 10. **8. Action items** (optional): Immediate, Short-term, Long-term.
+11. **9. Architecture & Database Diagrams** (optional but recommended): Mermaid diagrams showing system architecture and database schema (when applicable). Automatically generated based on codebase analysis.
 
 ---
 
@@ -193,6 +304,7 @@ Use for **Codebase statistics**:
 - Use [report_template_backend.md](report_template_backend.md) or [report_template_frontend.md](report_template_frontend.md) for exact headings and tables.
 - Section titles and content in English.
 - Replace all placeholders with real data; cite paths, files, and metrics.
+- **Automatically generate Architecture and Database diagrams** using Mermaid syntax (see Architecture & Database Diagrams section above).
 - For "Frontend vs Backend" or "mobile & web & backend": deliver two or three reports as above; optionally add a short comparison.
 - Always append the **Project governance & PR standards table** (defined below) after the main report body.
 
@@ -223,6 +335,10 @@ When the user requests to **export the report as a Google Doc**, follow these st
    - Apply heading styles manually if needed (Format → Paragraph styles → Heading 1/2/3/4)
    - Adjust table formatting (borders, colors, alignment)
    - Format code blocks with monospace font (Courier New or Consolas)
+   - **For Mermaid diagrams**: Google Docs doesn't render Mermaid directly. Options:
+     - Use online Mermaid renderer (mermaid.live) to generate PNG/SVG, then insert images
+     - Install Google Docs add-on "Mermaid Diagrams" if available
+     - Keep diagrams as code blocks with note: "Render using mermaid.live or compatible viewer"
    - Add page breaks between major sections if needed
    - Insert a table of contents (Insert → Table of contents) if the report is long
 
@@ -273,6 +389,8 @@ When exporting, structure the document as:
    - Areas for Improvement
    - Recommendations
    - Conclusion
+   - Action Items (Optional)
+   - Architecture & Database Diagrams
    - Project Governance & PR Standards Table
 
 4. **Appendices** (if needed):
@@ -376,6 +494,7 @@ Summarize why you chose the rating in **1–2 short sentences** in the report bo
 - [ ] Header includes project/repo name and tech stack
 - [ ] All 7 criteria scored with Scoring Guide; total and overall rating computed; add Performance and/or Risks section if relevant
 - [ ] Codebase stats completed; **Dependencies, Libraries & Framework Review** section filled (framework version, key libs, outdated, upgrade suggestions, technical risks, security/vulnerabilities)
+- [ ] **Architecture & Database Diagrams** section included with Mermaid diagrams (Architecture diagram always; DB diagram for Backend or Frontend with DB)
 - [ ] Frontend: Accessibility considered when assessable; Backend/Frontend: Performance, CI/CD, observability mentioned when assessable
 - [ ] Strengths and improvements are evidence-based (file/code references)
 - [ ] Recommendations are prioritized and actionable
