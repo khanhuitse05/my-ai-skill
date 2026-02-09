@@ -193,6 +193,80 @@ Use for **Codebase statistics**:
 - Section titles and content in English.
 - Replace all placeholders with real data; cite paths, files, and metrics.
 - For "Frontend vs Backend" or "mobile & web & backend": deliver two or three reports as above; optionally add a short comparison.
+- Always append the **Project governance & PR standards table** (defined below) after the main report body.
+
+---
+
+## Project Governance & PR Standards Table
+
+For every report, include a **single-row governance table** summarizing PR standards, git workflow, security, and process health.
+
+### Table Template
+
+Use a **2-column table** (`Field` / `Value`) with exactly these rows and labels:
+
+```markdown
+| Field | Value |
+| --- | --- |
+| Code quality PR creation standards, gitflow | [Short description of PR standards & gitflow] |
+| Protect git branch and prevent master/main push/push force | [e.g. "protected", "partially protected", "not protected", "unknown"] |
+| README | [e.g. "Up-to-date", "Out-of-date", "Missing", "Minimal"] |
+| Architecture diagram? | [e.g. "Up-to-date", "Missing", "Partial"] |
+| DB Diagram? | [e.g. "Up-to-date", "Missing", "Not applicable"] |
+| Unit Test Coverage (%) | [e.g. "~60%", "Unknown", "Low (<30%)", "High (>80%)"] |
+| API Key - Security (Ensure sensitive API keys and tokens are not exposed or stored directly in the source code.) | [e.g. "No vulnerabilities, secure error handling, no sensitive data leaks." or specific issues] |
+| Linting & Formatting tool name | [e.g. "ESLint", "Biome", "Prettier", or "None detected"] |
+| Error Tracking | [e.g. "Sentry", "Datadog", "None detected"] |
+| CI/CD | [e.g. "CI/CD in place", "Manual only", "Unknown"] |
+| Need more meetings with the team to improve? | [TRUE/FALSE based on whether more team process syncs seem needed] |
+| Notes - Need any improvement (detail)? | [Short, concrete improvement notes] |
+| Rating | [Star rating, e.g. "★★★★☆"] |
+```
+
+### Example Filled Table
+
+Use this as a reference example when interpreting the fields:
+
+```markdown
+| Field | Value |
+| --- | --- |
+| Code quality PR creation standards, gitflow | The PR follows a clear and consistent structure |
+| Protect git branch and prevent master/main push/push force | protected |
+| README | Up-to-date but needs further improvement |
+| Architecture diagram? | Up-to-date |
+| DB Diagram? | Up-to-date |
+| Unit Test Coverage (%) | ~60% |
+| API Key - Security (Ensure sensitive API keys and tokens are not exposed or stored directly in the source code.) | No vulnerabilities, secure error handling, no sensitive data leaks. |
+| Linting & Formatting tool name | ESLint |
+| Error Tracking | Sentry |
+| CI/CD | CI/CD |
+| Need more meetings with the team to improve? | FALSE |
+| Notes - Need any improvement (detail)? | - apply full biome linter<br>- There are still issues due to tech debt - the customer team is gradually resolving them. |
+| Rating | ★★★★☆ |
+```
+
+When rendering **Notes**, it is acceptable to use `<br>` for line breaks.
+
+---
+
+## Rating Guidelines for Governance Table
+
+The **Rating** column uses a 1–5 star scale (including half-steps), for example:
+
+- `★★★★★` – Exceptional: industry-leading practices, strong automation, high coverage, low tech debt.
+- `★★★★☆` – Strong: generally high quality with some improvement areas; safe and maintainable.
+- `★★★☆☆` – Acceptable: working but with noticeable inconsistencies, automation/testing gaps, or architectural smells.
+- `★★☆☆☆` – Weak: significant issues in structure, security, or quality gates; focused investment required.
+- `★☆☆☆☆` – Critical: unsafe or unsustainable; requires immediate remediation.
+
+When applicable, interpret the rating along four axes in your narrative:
+
+- **Clarity**: Code is easy to read, well-structured, with clear and meaningful names.
+- **Process Compliance**: Thoroughly reviewed, passes CI/CD, meets project requirements.
+- **Efficiency**: Acceptable performance relative to scope, with room for optimization as needed.
+- **Consistency**: Adherence to agreed style, patterns, and standards across the codebase.
+
+Summarize why you chose the rating in **1–2 short sentences** in the report body (e.g. in conclusion or recommendations).
 
 ---
 
@@ -206,3 +280,4 @@ Use for **Codebase statistics**:
 - [ ] Strengths and improvements are evidence-based (file/code references)
 - [ ] Recommendations are prioritized and actionable
 - [ ] Conclusion matches scores and states next steps
+- [ ] **Project governance & PR standards table** is included and filled with the best available evidence (use `Unknown` rather than guessing when data is not visible)
