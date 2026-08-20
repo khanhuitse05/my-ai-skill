@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mermaid Chart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+      padding: 32px;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+    }
+    .chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+    /* SVG Node Enhancements */
+    .node rect,
+    .node circle,
+    .node polygon,
+    .node path {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+    }
+    .node rect {
+      rx: 8px;
+      ry: 8px;
+    }
+    .cluster rect {
+      rx: 12px;
+      ry: 12px;
+      stroke-dasharray: 5, 5;
+    }
+    .edgeLabel {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-container">
+    <pre class="mermaid">
+flowchart TD
+    classDef startNode fill:#f8fafc,stroke:#64748b,stroke-width:2px;
+    classDef decision fill:#fef9c3,stroke:#eab308,stroke-width:2px;
+    classDef blueNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+    classDef greenNode fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+
+    START("Start"):::startNode --> COND{"Condition?"}:::decision
+    COND -->|True| OP1["☁️ Cloud Action"]:::blueNode
+    COND -->|False| OP2["📁 Local Action"]:::greenNode
+    </pre>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+        fontSize: '13px',
+        primaryColor: '#ffffff',
+        primaryBorderColor: '#cbd5e1',
+        primaryTextColor: '#1e293b',
+        lineColor: '#64748b',
+        textColor: '#1e293b',
+        mainBkg: '#ffffff',
+        nodeBorder: '#94a3b8',
+        clusterBkg: '#f8fafc',
+        clusterBorder: '#cbd5e1',
+        edgeLabelBackground: '#ffffff',
+        tertiaryColor: '#f1f5f9'
+      },
+      flowchart: {
+        curve: 'basis',
+        htmlLabels: true,
+        padding: 20,
+        useMaxWidth: true
+      },
+      securityLevel: 'loose'
+    });
+  </script>
+</body>
+</html>
